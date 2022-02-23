@@ -30,4 +30,36 @@ public class HelloControllerTest {
                 .andExpect(content().string("Hello Kaan"));
     }
 
+    @Test
+    void calculateAddition_withArgs_returnsComputedValue() throws Exception {
+        mockMvc.perform(get("/calculate?numbers=5,5&operator=+"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("10"));
+    }
+
+    @Test
+    void calculateDivide_withArgs_returnsComputedValue() throws Exception {
+        mockMvc.perform(get("/calculate?numbers=10,5&operator=/"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("2"));
+    }
+
+    @Test
+    void countVowels_ofArgs() throws Exception {
+        mockMvc.perform(get("/vowels?word=Magermilchjoghurt"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("5"));
+    }
+
+    @Test
+    void postSearchAndReplace() throws Exception {
+        mockMvc.perform(post("/body?words=Magermilchjoghurt,Test")
+                        .content(
+                                "xxxMagermilchjoghurtxxx"
+                        ))
+                .andExpect(status().isOk())
+                .andExpect(content().string("xxxTestxxx"));
+    }
+
+
 }
